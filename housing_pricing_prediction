@@ -1,0 +1,29 @@
+import pandas as pd
+from sklearn.linear_model import LinearRegression as lr
+from matplotlib import pyplot as plt
+import seaborn as sns
+
+
+
+
+hp=pd.read_csv('housing_prices.csv')
+hpint=hp.select_dtypes(include='int64')
+
+
+x=hpint[['MSSubClass', 'LotArea', 'OverallQual', 'OverallCond',
+       'YearBuilt', 'YearRemodAdd', 'BsmtFinSF1', 'BsmtFinSF2', 'BsmtUnfSF',
+       'TotalBsmtSF', '1stFlrSF', '2ndFlrSF', 'LowQualFinSF', 'GrLivArea',
+       'BsmtFullBath', 'BsmtHalfBath', 'FullBath', 'HalfBath', 'BedroomAbvGr',
+       'KitchenAbvGr', 'TotRmsAbvGrd', 'Fireplaces', 'GarageCars',
+       'GarageArea', 'WoodDeckSF', 'OpenPorchSF', 'EnclosedPorch', '3SsnPorch',
+       'ScreenPorch', 'PoolArea', 'MiscVal', 'MoSold', 'YrSold']].values
+y=hpint['SalePrice'].values
+
+
+linear=lr()
+linear.fit(x,y)
+pred=linear.predict(x)
+
+pred
+
+linear.coef_
