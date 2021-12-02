@@ -3,32 +3,29 @@ from matplotlib import pyplot as plt
 from sklearn.linear_model import LinearRegression as lr
 from datetime import datetime as dt
 from sklearn.preprocessing import PolynomialFeatures as pf
-
-
-
-
 co19=pd.read_csv('covid_19_india.csv')
+co19.columns
+co19.dtypes
 co19['Date']=pd.to_datetime(co19['Date'])
 co19['Date']=co19['Date'].map(dt.toordinal)
 df=co19.groupby(co19['Date']).sum()
 y=df['Deaths'].values
 x=co19['Date'].unique()
 
+#Analyzing
+plt.plot(x,y,c='g')
+co19['Deaths'].groupby(co19["State/UnionTerritory"]).sum()
+
 linear=lr()
 linear.fit(x.reshape(-1,1),y)
+linear.coef_
 pred=linear.predict(x.reshape(-1,1))
 plt.plot(x,pred,c='b')
 plt.plot(x,y,c='g')
 
-
-
-
-
-
-
 poly=pf(degree=2)
-pol=poly.fit_transform(x.reshape(-1,1))
+pol=poly.fit_transform(x.reshape(-1,1),y)
 linear.fit(pol,y)
 pred=linear.predict(pol)
-plt.plot(x,pred)
-plt.plot(x,y)
+plt.plot(x,pred,c="b")
+plt.plot(x,y,c="y")
